@@ -8,7 +8,7 @@ from purepursuit import PurePursuitTracker,simulate_unicycle
 
 #################################################################
 
-vmax = 0.25
+vmax = 0.15
 goal_threshold = 0.05
 lookahead = 2.0
 
@@ -25,7 +25,7 @@ move = Twist()
 
 # move.linear.x = 0.5
 # move.angular.z = 0.5
-x,y,t = trajectory.generate_trajectory([("straight",2),("turn",90),("straight",4),("turn",-90),("turn",-90),("turn",-90),("straight",2),("turn",-90)],radius = 1)
+x,y,t = trajectory.generate_trajectory([("straight",2),("turn",90)],radius = 1)
 tracker = PurePursuitTracker(x,y,vmax) 
 pose = 0, 0, np.pi/2 #arbitrary initial pose
 

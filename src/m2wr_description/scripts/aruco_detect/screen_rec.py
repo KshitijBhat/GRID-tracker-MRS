@@ -33,7 +33,7 @@ def main():
         image = cv.cvtColor(frame,cv.COLOR_BGR2RGB)
         #image = image[::-1]  
         swathe, is_got = get_swathe(image,True)
-        cv.imshow('Camera', cv.flip(image,1)) 
+        #cv.imshow('Camera', cv.flip(image,1)) 
         
         if is_got:
             x,y = (swathe[0][0] + swathe[2][0])/2 , (swathe[0][1] + swathe[2][1])/-2
@@ -44,9 +44,10 @@ def main():
             theta = 0-thetap*(y>=ye) - thetan*(y<ye)
             pose = x,y,theta
             traj.append([*pose])    
-        if cv.waitKey(1) & 0xFF == ord('x'):
-            cv.destroyAllWindows()
-            break
+            
+        # if cv.waitKey(1) & 0xFF == ord('x'):
+        #     cv.destroyAllWindows()
+        #     break
 
     [xo,yo,t0] = traj[0]
     [xf,yf,tf] = traj[-1]

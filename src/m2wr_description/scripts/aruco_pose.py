@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 import cv2 as cv
 
 def get_pose(img,draw=True):
+    """
+    Detects and highlights the aruco marker in the cv.imshow() if draw = True
+    Returns pose and a bool indicating whether it detected the marker or not
+    """
     gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
     arucoDict = aruco.Dictionary_get(aruco.DICT_4X4_50)
     aruco_param = aruco.DetectorParameters_create()
@@ -19,14 +23,15 @@ def get_pose(img,draw=True):
     try:
         swathe =  np.array(bounds)[0][0]
     except Exception:
-        return None,False   
+        return np.array([0.0,0.0,0.0]),False   
     x,y = (swathe[0][0] + swathe[2][0])/2 , (swathe[0][1] + swathe[2][1])/-2
     xe,ye = (swathe[3][0] + swathe[2][0])/2 , (swathe[3][1] + swathe[2][1])/-2
     size = np.linalg.norm(swathe[1]-swathe[0])
-    thetap = np.pi + np.arctan((swathe[1][1]-swathe[0][1])/(swathe[1][0]-swathe[0][0] + 1e-6))
-    thetan = 3*np.pi/2 + np.arctan((swathe[1][1]-swathe[0][1])/(swathe[1][0]-swathe[0][0] + 1e-6))
+    size2 = np.linalg.norm(swathe[1]-swathe[2])
+    thetap = np.arctan((swathe[1][1]-swathe[0][1])/(swathe[1][0]-swathe[0][0] + 1e-6))
+    thetan = np.pi + np.arctan((swathe[1][1]-swathe[0][1])/(swathe[1][0]-swathe[0][0] + 1e-6))
     theta = 0-thetap*(y>=ye) - thetan*(y<ye)
-    pose = [x*0.3/size,y*0.3/size,theta]
+    pose = np.array([x*0.3/size,y*0.3/size2,theta])
     return pose,True        
 
 def main():
