@@ -5,19 +5,26 @@ import rospy
 import numpy as np
 
 import matplotlib.pyplot as plt
-from rospy.numpy_msg import numpy_msg
-from std_msgs.msg import Float64
+#from rospy.numpy_msg import numpy_msg
+#from rospy_tutorials.msg import Floats
+
+#from std_msgs.msg import Float32MultiArray
+from pose_messages.msg import Pose
+
 traj = []
 
 def subscriberCallBack(data):
-    rospy.loginfo(rospy.get_caller_id() + " I recieved {}".format(data.data))
+    #rospy.loginfo(rospy.get_caller_id() + " I recieved {}".format(data.data))
+    print(data)
+    print(str(data.data))
+    print('\n')
+
     traj.append(data.data)
 
 
 def listener():
     rospy.init_node("subscriber", anonymous=True)
-    rospy.Subscriber('track_pose',numpy_msg(Float64),subscriberCallBack)
-    print(".")
+    rospy.Subscriber('track_pose',Pose,subscriberCallBack)
     rospy.spin()
    
 

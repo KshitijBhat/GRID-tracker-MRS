@@ -10,10 +10,14 @@ import cv2 as cv
 import pyautogui
 
 from aruco_pose import get_pose
-from rospy.numpy_msg import numpy_msg
-from std_msgs.msg import Float64
+#from rospy.numpy_msg import numpy_msg
+#from rospy_tutorials.msg import Floats
+#from std_msgs.msg import Float32MultiArray
+from pose_messages.msg import Pose
+
+
 def TrackPose():
-    pub = rospy.Publisher("track_pose",numpy_msg(Float64), queue_size=1)
+    pub = rospy.Publisher("track_pose",Pose, queue_size=1)
     rospy.init_node("Tracker",anonymous=True) 
     rate = rospy.Rate(10)
 
@@ -22,7 +26,7 @@ def TrackPose():
     #cam = cv.VideoCapture(address)  
         
     is_got = False
-    state = np.array([0,0,0])    
+    state = [0.0,0.0,0.0]
     while not rospy.is_shutdown():
 
         image = pyautogui.screenshot()

@@ -23,7 +23,7 @@ def get_pose(img,draw=True):
     try:
         swathe =  np.array(bounds)[0][0]
     except Exception:
-        return np.array([0.0,0.0,0.0]),False   
+        return [0.0,0.0,0.0],False   
     x,y = (swathe[0][0] + swathe[2][0])/2 , (swathe[0][1] + swathe[2][1])/-2
     xe,ye = (swathe[3][0] + swathe[2][0])/2 , (swathe[3][1] + swathe[2][1])/-2
     size = np.linalg.norm(swathe[1]-swathe[0])
@@ -31,7 +31,7 @@ def get_pose(img,draw=True):
     thetap = np.arctan((swathe[1][1]-swathe[0][1])/(swathe[1][0]-swathe[0][0] + 1e-6))
     thetan = np.pi + np.arctan((swathe[1][1]-swathe[0][1])/(swathe[1][0]-swathe[0][0] + 1e-6))
     theta = 0-thetap*(y>=ye) - thetan*(y<ye)
-    pose = np.array([x*0.3/size,y*0.3/size2,theta])
+    pose = [x*0.3/size,y*0.3/size2,theta]
     return pose,True        
 
 def main():
