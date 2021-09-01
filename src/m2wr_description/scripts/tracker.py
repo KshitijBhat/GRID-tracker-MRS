@@ -13,15 +13,14 @@ from aruco_pose import get_pose
 #from rospy.numpy_msg import numpy_msg
 #from rospy_tutorials.msg import Floats
 #from std_msgs.msg import Float32MultiArray
-from pose_messages.msg import Pose
+from pose_messages.msg import Pose as Poses
 
 
 def TrackPose():
-    pub = rospy.Publisher("track_pose",Pose, queue_size=1)
+    pub = rospy.Publisher("track_pose",Poses, queue_size=1)
     rospy.init_node("Tracker",anonymous=True) 
     rate = rospy.Rate(10)
-
-    
+     
     #address = "http://192.168.1.101:4747/mjpegfeed?640x480" 
     #cam = cv.VideoCapture(address)  
         
@@ -38,12 +37,20 @@ def TrackPose():
         cv.imshow('cam', cv.flip(image,1))
         if is_got:
             rospy.loginfo("Pose is being published")
-            pub.publish(pose)
+            Pose = Poses()   
+            Pose.x = pose[0]
+            Pose.y = pose[1]
+            Pose.theta = pose[2]
+            pub.publish(Pose)
             print(pose)
             state = pose
         else:
             rospy.loginfo("Pose is not being published")
-            pub.publish(state)
+            Pose = Poses()   
+            Pose.x = state[0]
+            Pose.y = state[1]
+            Pose.theta = state[2]
+            pub.publish(Pose)
             print(state)
 
             

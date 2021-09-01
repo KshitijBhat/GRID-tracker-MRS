@@ -8,7 +8,7 @@ project(m2wr_description)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  messages
+  pose_messages
   rospy
 )
 
@@ -104,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES m2wr_description
-#  CATKIN_DEPENDS messages rospy
+#  CATKIN_DEPENDS pose_messages rospy
 #  DEPENDS system_lib
 )
 
