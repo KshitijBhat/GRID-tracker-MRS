@@ -19,7 +19,7 @@ from pose_messages.msg import Pose as Poses
 def TrackPose():
     pub = rospy.Publisher("track_pose",Poses, queue_size=1)
     rospy.init_node("Tracker",anonymous=True) 
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(30)
      
     #address = "http://192.168.1.101:4747/mjpegfeed?640x480" 
     #cam = cv.VideoCapture(address)  
@@ -32,12 +32,12 @@ def TrackPose():
         #bo,image = cam.read() 
         frame = np.array(image)
         image = cv.cvtColor(frame,cv.COLOR_BGR2RGB)
-
+        Pose = Poses()
         pose,is_got = get_pose(image)
-        cv.imshow('cam', cv.flip(image,1))
+        #cv.imshow('cam', cv.flip(image,1))
         if is_got:
             rospy.loginfo("Pose is being published")
-            Pose = Poses()   
+               
             Pose.x = pose[0]
             Pose.y = pose[1]
             Pose.theta = pose[2]
@@ -45,8 +45,7 @@ def TrackPose():
             print(pose)
             state = pose
         else:
-            rospy.loginfo("Pose is not being published")
-            Pose = Poses()   
+            rospy.loginfo("Pose is not being published")   
             Pose.x = state[0]
             Pose.y = state[1]
             Pose.theta = state[2]

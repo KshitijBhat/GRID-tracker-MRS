@@ -1,25 +1,23 @@
 #!/usr/bin/env python3
 
+## Subscriber for pose data and plotter
+
 import rospy
 
 import numpy as np
 
 import matplotlib.pyplot as plt
-#from rospy.numpy_msg import numpy_msg
-#from rospy_tutorials.msg import Floats
 
-#from std_msgs.msg import Float32MultiArray
 from pose_messages.msg import Pose
 
 traj = []
 
-def subscriberCallBack(data):
-    #rospy.loginfo(rospy.get_caller_id() + " I recieved {}".format(data.data))
-    print(data)
-    print(str(data.data))
-    print('\n')
+def subscriberCallBack(Pose):
 
-    traj.append(data.data)
+    pose = [Pose.x,Pose.y,Pose.theta]
+    rospy.loginfo(rospy.get_caller_id() + " I recieved {}".format(pose))
+    
+    traj.append(pose)
 
 
 def listener():
@@ -36,14 +34,19 @@ def main():
         pass    
 
     # plot
+    print(traj)
     [xo,yo,t0] = traj[0]
     [xf,yf,tf] = traj[-1]
     plt.figure()
     xs,ys,ts = zip(*traj)
-    plt.plot(xs-xo,ys-yo,label='Tracked')
+    xns = np.array(xs) - xo
+    yns = np.array(ys) - yo
+    plt.plot(xns,yns,label='Tracked')
     #plt.plot(x,y,label='Reference')
-    plt.quiver(xo-xo,yo-yo, np.cos(t0), np.sin(t0),scale=12,color='g')
-    plt.quiver(xf-xo,yf-yo, np.cos(tf), np.sin(tf),scale=12,color='r')
+    plt.quiver(0,0, np.cos(t0), np.sin(t0),scale=12,color='g')
+    xf-=xo
+    yf-=yo
+    plt.quiver(xf,yf, np.cos(tf), np.sin(tf),scale=12,color='r')
 
     plt.title('Tracked path')
     plt.legend()
