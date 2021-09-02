@@ -1,5 +1,5 @@
 # Robot Tracking using aruco
-
+Ignore the following. Ask Kshitij
 Steps:
   1. Run ```catkin build``` and ```source devel/setup.bash``` in the main folder.
   2. To launch the robot on gazebo, run ```roslaunch m2wr_description spawn.launch```
